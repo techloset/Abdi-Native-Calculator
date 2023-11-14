@@ -20,14 +20,15 @@ export const COLOR = {
   gray: '#747477',
   black: '#000000',
   white: '#FFFFFF',
-  result: '#46D5B2',
+  result: '#FFA500',
+  query: '#FF0000',
 };
 /* Common */
 export const COMMON_STYLES = {
   btnBlue: {
     width: widthPixel(72),
     height: widthPixel(72),
-    borderRadius: widthPixel(24),
+    borderRadius: widthPixel(5),
     backgroundColor: COLOR.blue,
     justifyContent: 'center',
     alignItems: 'center',
@@ -36,7 +37,7 @@ export const COMMON_STYLES = {
   btnDark: {
     width: widthPixel(72),
     height: widthPixel(72),
-    borderRadius: widthPixel(24),
+    borderRadius: widthPixel(5),
     backgroundColor: COLOR.btnDark,
     justifyContent: 'center',
     alignItems: 'center',
@@ -45,7 +46,7 @@ export const COMMON_STYLES = {
   btnLight: {
     width: widthPixel(72),
     height: widthPixel(72),
-    borderRadius: widthPixel(24),
+    borderRadius: widthPixel(5),
     backgroundColor: COLOR.white,
     justifyContent: 'center',
     alignItems: 'center',
@@ -54,7 +55,7 @@ export const COMMON_STYLES = {
   btnGray: {
     width: widthPixel(72),
     height: widthPixel(72),
-    borderRadius: widthPixel(24),
+    borderRadius: widthPixel(5),
     backgroundColor: COLOR.btnGray,
     justifyContent: 'center',
     alignItems: 'center',
@@ -79,7 +80,7 @@ export const COMMON_STYLES = {
   },
   screenFirstNumber: {
     fontSize: fontPixel(96),
-    color: COLOR.gray,
+    color: COLOR.blue,
     fontWeight: '200',
     alignSelf: 'flex-end',
   },
