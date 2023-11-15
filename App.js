@@ -5,7 +5,6 @@ import {COLOR} from './src/styles/consts/GlobalStyles';
 import MyKeyboard from './src/components/MyKeyboard';
 import SwitchWithIcon from './src/components/Toggle';
 import ratio from './src/styles/consts/ratio';
-
 export default function App() {
   const [theme, setTheme] = useState('light');
   return (

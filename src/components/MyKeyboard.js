@@ -16,9 +16,11 @@ export default function MyKeyboard() {
   };
 
   const handleOperationPress = buttonValue => {
-    setOperation(buttonValue);
-    setSecondNumber(firstNumber);
-    setFirstNumber('');
+    if (firstNumber != '') {
+      setOperation(buttonValue);
+      setSecondNumber(firstNumber);
+      setFirstNumber('');
+    }
   };
 
   const clear = () => {
@@ -86,7 +88,6 @@ export default function MyKeyboard() {
           setResult(parseInt(secondNumber) / parseInt(firstNumber));
         } else {
           clear();
-          console.log('Error');
         }
         break;
       default:
