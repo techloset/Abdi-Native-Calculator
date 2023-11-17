@@ -13,6 +13,10 @@ export default function MyKeyboard() {
     if (firstNumber.length < 10) {
       setFirstNumber(firstNumber + buttonValue);
     }
+    if (result !== null) {
+      clearAll();
+      setFirstNumber(buttonValue);
+    }
   };
 
   const handleOperationPress = buttonValue => {
@@ -21,9 +25,23 @@ export default function MyKeyboard() {
       setSecondNumber(firstNumber);
       setFirstNumber('');
     }
+    if (operation !== null) {
+      clearAll();
+      setOperation(buttonValue);
+      setSecondNumber(firstNumber);
+      setFirstNumber('');
+    }
+    if (result !== null) {
+      setOperation(buttonValue);
+      setSecondNumber(result);
+      setFirstNumber('');
+    }
   };
 
   const clear = () => {
+    setResult(null);
+  };
+  const clearAll = () => {
     setFirstNumber('');
     setSecondNumber('');
     setOperation('');
@@ -69,17 +87,15 @@ export default function MyKeyboard() {
   };
 
   const getResult = () => {
+    clear();
     switch (operation) {
       case '+':
-        clear();
         setResult(parseInt(secondNumber) + parseInt(firstNumber));
         break;
       case '-':
-        clear();
         setResult(parseInt(secondNumber) - parseInt(firstNumber));
         break;
       case '*':
-        clear();
         setResult(parseInt(secondNumber) * parseInt(firstNumber));
         break;
       case '/':
@@ -111,11 +127,12 @@ export default function MyKeyboard() {
           <Text style={{color: COLOR.gray, fontSize: 50, fontWeight: '500'}}>
             {operation}
           </Text>
+          {firstNumber}
         </Text>
         {firstNumberDisplay()}
       </View>
       <View style={COMMON_STYLES.row}>
-        <Button title="C" isGray onPress={clear} />
+        <Button title="C" isGray onPress={clearAll} />
         <Button
           title="+/-"
           isGray
@@ -125,21 +142,33 @@ export default function MyKeyboard() {
         <Button title="÷" isBlue onPress={() => handleOperationPress('/')} />
       </View>
       <View style={COMMON_STYLES.row}>
-        <Button title="7" onPress={() => handleNumberPress('7')} />
-        <Button title="8" onPress={() => handleNumberPress('8')} />
-        <Button title="9" onPress={() => handleNumberPress('9')} />
+        {[7, 8, 9].map(num => (
+          <Button
+            key={num}
+            title={num.toString()}
+            onPress={() => handleNumberPress(num.toString())}
+          />
+        ))}
         <Button title="×" isBlue onPress={() => handleOperationPress('*')} />
       </View>
       <View style={COMMON_STYLES.row}>
-        <Button title="4" onPress={() => handleNumberPress('4')} />
-        <Button title="5" onPress={() => handleNumberPress('5')} />
-        <Button title="6" onPress={() => handleNumberPress('6')} />
+        {[4, 5, 6].map(num => (
+          <Button
+            key={num}
+            title={num.toString()}
+            onPress={() => handleNumberPress(num.toString())}
+          />
+        ))}
         <Button title="-" isBlue onPress={() => handleOperationPress('-')} />
       </View>
       <View style={COMMON_STYLES.row}>
-        <Button title="1" onPress={() => handleNumberPress('1')} />
-        <Button title="2" onPress={() => handleNumberPress('2')} />
-        <Button title="3" onPress={() => handleNumberPress('3')} />
+        {[1, 2, 3].map(num => (
+          <Button
+            key={num}
+            title={num.toString()}
+            onPress={() => handleNumberPress(num.toString())}
+          />
+        ))}
         <Button title="+" isBlue onPress={() => handleOperationPress('+')} />
       </View>
       <View style={COMMON_STYLES.row}>
