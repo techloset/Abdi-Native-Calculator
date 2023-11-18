@@ -37,7 +37,6 @@ export default function MyKeyboard() {
       setFirstNumber('');
     }
   };
-
   const clear = () => {
     setResult(null);
   };
