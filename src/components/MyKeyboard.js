@@ -47,7 +47,6 @@ export default function MyKeyboard() {
     setOperation('');
     setResult(null);
   };
-
   const firstNumberDisplay = () => {
     if (result !== null) {
       return (
