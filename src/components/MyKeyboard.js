@@ -8,7 +8,6 @@ export default function MyKeyboard() {
   const [secondNumber, setSecondNumber] = useState('');
   const [operation, setOperation] = useState('');
   const [result, setResult] = useState(null);
-
   const handleNumberPress = buttonValue => {
     if (firstNumber.length < 10) {
       setFirstNumber(firstNumber + buttonValue);
