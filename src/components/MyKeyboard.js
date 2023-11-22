@@ -20,7 +20,6 @@ export default function MyKeyboard() {
 
   const handleOperationPress = buttonValue => {
     if (result !== null) {
-      // Continue the calculation from the previous result
       setExpression(result.toString() + buttonValue);
       setResult(null);
     } else if (currentNumber !== '') {
@@ -29,10 +28,6 @@ export default function MyKeyboard() {
       );
       setCurrentNumber('');
     }
-  };
-
-  const clear = () => {
-    setResult(null);
   };
 
   const clearAll = () => {
@@ -93,7 +88,6 @@ export default function MyKeyboard() {
 
   const getResult = () => {
     if (currentNumber !== '') {
-      // Continue the calculation with the current number
       const fullExpression = expression + currentNumber;
 
       try {
