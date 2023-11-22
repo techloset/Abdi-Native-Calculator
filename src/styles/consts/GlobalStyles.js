@@ -2,19 +2,12 @@ import ratio from './ratio';
 
 const {widthPixel, fontPixel, pixelSizeVertical} = ratio;
 
-/* fonts */
-// export const FONT_FAMILY = {
-//   montserratSemiBold: 'Montserrat-SemiBold',
-//   montserratBold: 'Montserrat-Bold',
-//   montserratMedium: 'Montserrat-Medium',
-//   montserratRegular: 'Montserrat-Regular',
-//   montserratLight: 'Montserrat-Light',
-// };
 /* Colors */
 export const COLOR = {
   light: '#F1F2F3',
   dark: '#17171C',
   blue: '#89CFF0',
+  maroon: '#C70039',
   btnGray: '#4E505F',
   btnDark: '#2E2F38',
   gray: '#747477',
@@ -80,7 +73,7 @@ export const COMMON_STYLES = {
   },
   screenFirstNumber: {
     fontSize: fontPixel(96),
-    color: COLOR.blue,
+    color: COLOR.maroon,
     fontWeight: '200',
     alignSelf: 'flex-end',
   },

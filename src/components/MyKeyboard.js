@@ -1,50 +1,56 @@
 import {useState} from 'react';
-import Button from './Button';
 import {View, Text} from 'react-native';
+import Button from './Button';
 import {COLOR, COMMON_STYLES} from '../styles/consts/GlobalStyles';
 
 export default function MyKeyboard() {
-  const [firstNumber, setFirstNumber] = useState('');
-  const [secondNumber, setSecondNumber] = useState('');
-  const [operation, setOperation] = useState('');
+  const [currentNumber, setCurrentNumber] = useState('');
+  const [expression, setExpression] = useState('');
   const [result, setResult] = useState(null);
+
   const handleNumberPress = buttonValue => {
-    if (firstNumber.length < 10) {
-      setFirstNumber(firstNumber + buttonValue);
-    }
     if (result !== null) {
-      clearAll();
-      setFirstNumber(buttonValue);
+      setResult(null);
+      setExpression('');
+      setCurrentNumber(buttonValue);
+    } else {
+      setCurrentNumber(prev => prev + buttonValue);
     }
   };
 
   const handleOperationPress = buttonValue => {
-    if (firstNumber != '') {
-      setOperation(buttonValue);
-      setSecondNumber(firstNumber);
-      setFirstNumber('');
-    }
-    if (operation !== null) {
-      clearAll();
-      setOperation(buttonValue);
-      setSecondNumber(firstNumber);
-      setFirstNumber('');
-    }
     if (result !== null) {
-      setOperation(buttonValue);
-      setSecondNumber(result);
-      setFirstNumber('');
+      // Continue the calculation from the previous result
+      setExpression(result.toString() + buttonValue);
+      setResult(null);
+    } else if (currentNumber !== '') {
+      setExpression(
+        prevExpression => prevExpression + currentNumber + buttonValue,
+      );
+      setCurrentNumber('');
     }
   };
+
   const clear = () => {
     setResult(null);
   };
+
   const clearAll = () => {
-    setFirstNumber('');
-    setSecondNumber('');
-    setOperation('');
+    setCurrentNumber('');
+    setExpression('');
     setResult(null);
   };
+
+  const handleBackspace = () => {
+    if (currentNumber.length > 0) {
+      setCurrentNumber(currentNumber.slice(0, -1));
+    } else if (expression.length > 0) {
+      setExpression(expression.slice(0, -1));
+    } else if (result !== null) {
+      setResult(null);
+    }
+  };
+
   const firstNumberDisplay = () => {
     if (result !== null) {
       return (
@@ -61,52 +67,42 @@ export default function MyKeyboard() {
         </Text>
       );
     }
-    if (firstNumber && firstNumber.length < 6) {
-      return <Text style={COMMON_STYLES.screenFirstNumber}>{firstNumber}</Text>;
+    if (currentNumber && currentNumber.length < 6) {
+      return (
+        <Text style={COMMON_STYLES.screenFirstNumber}>{currentNumber}</Text>
+      );
     }
-    if (firstNumber === '') {
+    if (currentNumber === '') {
       return <Text style={COMMON_STYLES.screenFirstNumber}>{'0'}</Text>;
     }
-    if (firstNumber.length > 5 && firstNumber.length < 8) {
+    if (currentNumber.length > 5 && currentNumber.length < 8) {
       return (
         <Text style={[COMMON_STYLES.screenFirstNumber, {fontSize: 70}]}>
-          {firstNumber}
+          {currentNumber}
         </Text>
       );
     }
-    if (firstNumber.length > 7) {
+    if (currentNumber.length > 7) {
       return (
         <Text style={[COMMON_STYLES.screenFirstNumber, {fontSize: 50}]}>
-          {firstNumber}
+          {currentNumber}
         </Text>
       );
     }
   };
 
   const getResult = () => {
-    clear();
-    switch (operation) {
-      case '+':
-        setResult(parseInt(secondNumber) + parseInt(firstNumber));
-        break;
-      case '-':
-        setResult(parseInt(secondNumber) - parseInt(firstNumber));
-        break;
-      case '*':
-        setResult(parseInt(secondNumber) * parseInt(firstNumber));
-        break;
-      case '/':
-        if (parseInt(firstNumber) !== 0) {
-          clear();
-          setResult(parseInt(secondNumber) / parseInt(firstNumber));
-        } else {
-          clear();
-        }
-        break;
-      default:
-        clear();
-        setResult(0);
-        break;
+    if (currentNumber !== '') {
+      // Continue the calculation with the current number
+      const fullExpression = expression + currentNumber;
+
+      try {
+        setResult(eval(fullExpression));
+        setExpression(fullExpression);
+        setCurrentNumber('');
+      } catch (error) {
+        setResult('Error');
+      }
     }
   };
 
@@ -120,11 +116,8 @@ export default function MyKeyboard() {
           alignSelf: 'center',
         }}>
         <Text style={COMMON_STYLES.screenSecondNumber}>
-          {secondNumber}
-          <Text style={{color: COLOR.gray, fontSize: 50, fontWeight: '500'}}>
-            {operation}
-          </Text>
-          {firstNumber}
+          {expression.replace(/\//g, '÷').replace(/\*/g, '×')}
+          {currentNumber}
         </Text>
         {firstNumberDisplay()}
       </View>
@@ -135,7 +128,7 @@ export default function MyKeyboard() {
           isGray
           onPress={() => handleOperationPress('+/-')}
         />
-        <Button title="％" isGray onPress={() => handleOperationPress('％')} />
+        <Button title="％" isGray onPress={() => handleOperationPress('%')} />
         <Button title="÷" isBlue onPress={() => handleOperationPress('/')} />
       </View>
       <View style={COMMON_STYLES.row}>
@@ -171,10 +164,7 @@ export default function MyKeyboard() {
       <View style={COMMON_STYLES.row}>
         <Button title="." onPress={() => handleNumberPress('.')} />
         <Button title="0" onPress={() => handleNumberPress('0')} />
-        <Button
-          title="⌫"
-          onPress={() => setFirstNumber(firstNumber.slice(0, -1))}
-        />
+        <Button title="⌫" onPress={handleBackspace} />
         <Button title="=" isBlue onPress={() => getResult()} />
       </View>
     </View>
