@@ -29,6 +29,7 @@ export default function MyKeyboard() {
       setCurrentNumber('');
     }
   };
+
   const clearAll = () => {
     setCurrentNumber('');
     setExpression('');
